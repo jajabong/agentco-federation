@@ -1,0 +1,11 @@
+{
+  "task_id": "t_smoke0001",
+  "title": "Phase 1 dry-run: federation task smoke",
+  "privacy": "public-federation",
+  "origin_node": "henry-mac",
+  "created_at": "2026-09-21T20:55:00Z",
+  "urgency": "p2",
+  "engine_tier": "tier0-readonly",
+  "capacity_required": {"estimated_tokens": 1000, "estimated_walltime_min": 5},
+  "contract": {"acceptance": ["echo OK"], "forbidden_paths": []}
+}
