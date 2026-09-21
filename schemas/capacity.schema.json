@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "title": "AgentCo Node Capacity Heartbeat",
+  "type": "object",
+  "required": ["node_id", "last_heartbeat", "physical", "engines_available", "wip", "wip_threshold", "saturated", "federation_role"],
+  "properties": {
+    "node_id": { "type": "string", "pattern": "^[a-z0-9-]+$" },
+    "last_heartbeat": { "type": "string", "format": "date-time" },
+    "physical": {
+      "type": "object",
+      "required": ["memory_total_gb", "memory_used_gb", "cpu_cores", "cpu_load_5min", "disk_free_gb"],
+      "properties": {
+        "memory_total_gb": { "type": "number" },
+        "memory_used_gb": { "type": "number" },
+        "cpu_cores": { "type": "integer" },
+        "cpu_load_5min": { "type": "number" },
+        "disk_free_gb": { "type": "number" }
+      }
+    },
+    "engines_available": {
+      "type": "array",
+      "items": { "type": "string", "enum": ["tier0-readonly", "tier1-local-nuclear", "tier2-speculative", "tier3-commercial-jet"] }
+    },
+    "wip": { "type": "integer", "minimum": 0 },
+    "wip_threshold": { "type": "integer", "minimum": 1 },
+    "saturated": { "type": "boolean" },
+    "federation_role": {
+      "type": "string",
+      "enum": ["origin_node_preferred", "satellite_node", "registry_only"]
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "node_id": "henry-mac",
+  "last_heartbeat": "2026-09-21T20:50:00Z",
+  "physical": {
+    "memory_total_gb": 16,
+    "memory_used_gb": 6.5,
+    "cpu_cores": 8,
+    "cpu_load_5min": 1.5,
+    "disk_free_gb": 200
+  },
+  "engines_available": [
+    "tier0-readonly",
+    "tier3-commercial-jet"
+  ],
+  "wip": 1,
+  "wip_threshold": 6,
+  "saturated": false,
+  "federation_role": "origin_node_preferred"
+}

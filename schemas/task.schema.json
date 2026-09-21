@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "title": "AgentCo Confederation Task",
+  "type": "object",
+  "required": ["task_id", "title", "privacy", "origin_node", "engine_tier", "contract", "created_at"],
+  "properties": {
+    "task_id": {
+      "type": "string",
+      "pattern": "^t_[a-f0-9]{8}$",
+      "description": "任务 ID，与本地 kanban.db 一致"
+    },
+    "title": { "type": "string", "maxLength": 200 },
+    "privacy": {
+      "type": "string",
+      "enum": ["public-federation", "public-no-detail", "private-encrypted"],
+      "default": "public-federation",
+      "description": "public-federation: 邦联可见全 body; public-no-detail: 仅元数据, body 加密; private-encrypted: body 加密 + 收件节点限定"
+    },
+    "origin_node": {
+      "type": "string",
+      "pattern": "^[a-z0-9-]+$",
+      "description": "派单节点 ID (members.md 注册)"
+    },
+    "created_at": { "type": "string", "format": "date-time" },
+    "urgency": { "type": "string", "enum": ["p0", "p1", "p2", "p3"], "default": "p2" },
+    "engine_tier": {
+      "type": "string",
+      "enum": ["tier1-local-nuclear", "tier2-speculative", "tier3-commercial-jet", "tier0-readonly"],
+      "description": "★ 必填: 所需引擎类型"
+    },
+    "capacity_required": {
+      "type": "object",
+      "properties": {
+        "estimated_tokens": { "type": "integer" },
+        "estimated_walltime_min": { "type": "integer" },
+        "memory_gb": { "type": "number" },
+        "cpu_cores": { "type": "integer" }
+      }
+    },
+    "contract": {
+      "type": "object",
+      "required": ["acceptance"],
+      "properties": {
+        "est_steps": { "type": "integer", "maximum": 10 },
+        "acceptance": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "可执行验收命令列表"
+        },
+        "forbidden_paths": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "encrypted_payload": {
+      "type": "object",
+      "description": "仅 privacy != public-federation 时存在",
+      "properties": {
+        "recipient_node_id": { "type": "string" },
+        "cipher": { "type": "string", "enum": ["AES-256-GCM"], "default": "AES-256-GCM" },
+        "encrypted_body": { "type": "string", "description": "base64 密文" },
+        "nonce": { "type": "string" },
+        "recipient_pubkey_fpr": { "type": "string", "description": "收件节点 GPG 公钥指纹" }
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "skill_hint": { "type": "string" },
+        "verifier_required": { "type": "boolean", "default": true },
+        "deadline": { "type": "string", "format": "date-time" },
+        "tags": { "type": "array", "items": { "type": "string" } },
+        "skill_tokens_used": { "type": "integer" }
+      }
+    }
+  }
+}
